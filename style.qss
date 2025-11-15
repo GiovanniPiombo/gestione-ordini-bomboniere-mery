@@ -1,0 +1,234 @@
+/* ========================================
+ * FOGLIO DI STYLE QSS - BOMBONIERE MERY
+ * ========================================
+ */
+
+/* --- Stile Generale --- */
+QMainWindow, QWidget {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    font-size: 11pt;
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                     stop:0 #fdf6f9, stop:1 #f8f0f5);
+    color: #5a4a54;
+}
+
+/* --- Titoli --- */
+QLabel#titleLabel {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #b76e97;
+    padding: 8px 0px;
+    border-bottom: 2px solid #e6d0dc;
+    margin-bottom: 15px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                               stop:0 transparent, stop:0.5 #f8d7e6, stop:1 transparent);
+}
+
+QLabel {
+    background-color: transparent;
+    padding: 3px;
+    color: #5a4a54;
+}
+
+/* --- Bottoni --- */
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #f8d7e6, stop:1 #d4a5c5);
+    color: #5a4a54;
+    border: 1px solid #e6d0dc;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    min-width: 110px;
+    min-height: 35px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #f5ebf2, stop:1 #b76e97);
+    border: 1px solid #d4a5c5;
+}
+
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #d4a5c5, stop:1 #b76e97);
+    color: white;
+}
+
+/* Bottoni specifici con colori tenui */
+QPushButton[text*="⬅️"] {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #f0f0f0, stop:1 #d0d0d0);
+}
+QPushButton[text*="⬅️"]:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #e8e8e8, stop:1 #b8b8b8);
+}
+
+QPushButton[text*="🗑️"] {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #f8e8e8, stop:1 #e8b4b8);
+}
+QPushButton[text*="🗑️"]:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #f5e0e0, stop:1 #d89da1);
+}
+
+QPushButton[text*="➕"] {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #e8f4ec, stop:1 #a8d5ba);
+}
+QPushButton[text*="➕"]:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:0.1 #e0f0e6, stop:1 #95c8a8);
+}
+
+/* --- Campi di Input --- */
+QLineEdit, QComboBox, QDateEdit, QSpinBox {
+    background-color: #fffafc;
+    border: 1px solid #e6d0dc;
+    padding: 8px 10px;
+    border-radius: 6px;
+    color: #5a4a54;
+    selection-background-color: #d4a5c5;
+    selection-color: white;
+}
+
+QLineEdit:focus, QComboBox:focus, QDateEdit:focus, QSpinBox:focus {
+    border: 2px solid #d4a5c5;
+    background-color: #fffafc;
+}
+
+QComboBox::drop-down, QDateEdit::drop-down {
+    border: none;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #f8d7e6, stop:1 #d4a5c5);
+    border-radius: 0px 5px 5px 0px;
+    width: 25px;
+}
+
+QComboBox::down-arrow, QDateEdit::down-arrow {
+    width: 12px;
+    height: 12px;
+    color: #5a4a54;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #fffafc;
+    border: 1px solid #e6d0dc;
+    selection-background-color: #d4a5c5;
+    selection-color: white;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* Campi non modificabili */
+QDateEdit[readOnly="true"] {
+    background-color: #f8f0f5;
+    color: #8c7385;
+    border: 1px solid #e6d0dc;
+}
+
+/* --- TABELLA CORRETTA (Senza padding problematico) --- */
+QTableWidget {
+    background-color: #fffafc;
+    border: 1px solid #e6d0dc;
+    border-radius: 6px;
+    gridline-color: #f0e6ec;
+    alternate-background-color: #fdf6f9;
+    selection-background-color: #d4a5c5;
+    selection-color: white;
+}
+
+QHeaderView::section {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #f8d7e6, stop:1 #d4a5c5);
+    color: #5a4a54;
+    padding: 8px;
+    border: none;
+    border-right: 1px solid #e6d0dc;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+/* Stile per le celle NON in editing */
+QTableWidget::item {
+    border-bottom: 1px solid #f0e6ec;
+}
+
+/* Stile per le celle SELEZIONATE */
+QTableWidget::item:selected {
+    background-color: #d4a5c5;
+    color: white;
+}
+
+/* Stile per gli editor nella tabella (QLineEdit, QComboBox dentro la tabella) */
+QTableWidget QLineEdit, QTableWidget QComboBox {
+    background-color: white;
+    border: 1px solid #d4a5c5;
+    padding: 4px 8px;
+    margin: 1px;
+    border-radius: 3px;
+}
+
+/* QComboBox dentro la tabella */
+QTableWidget QComboBox {
+    padding: 4px;
+}
+
+QTableWidget QComboBox::drop-down {
+    width: 20px;
+}
+
+/* --- Scroll Area e Barre --- */
+QScrollArea {
+    border: none;
+    background: transparent;
+}
+
+QScrollArea > QWidget > QWidget {
+    background-color: #fffafc;
+    border: 1px solid #e6d0dc;
+    border-radius: 8px;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background: #f5ebf2;
+    width: 12px;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical {
+    background: #d4a5c5;
+    border-radius: 5px;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #b76e97;
+}
+
+QScrollBar::add-line, QScrollBar::sub-line {
+    border: none;
+    background: none;
+}
+
+/* --- Form Layout Spacing --- */
+QFormLayout {
+    background-color: transparent;
+    spacing: 8px;
+}
+
+/* --- Messaggi Box --- */
+QMessageBox {
+    background-color: #fffafc;
+    border: 2px solid #d4a5c5;
+    border-radius: 8px;
+}
+
+QMessageBox QPushButton {
+    min-width: 80px;
+    padding: 6px 12px;
+}

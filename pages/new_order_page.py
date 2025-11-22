@@ -24,7 +24,7 @@ class NoWheelDateEdit(QDateEdit):
     DateEdit che:
     1. Ignora la rotella del mouse.
     2. Mostra SEMPRE il calendario popup (griglia).
-    3. Si apre cliccando OVUNQUE nel widget (testo o freccia).
+    3. Si apre cliccando OVUNQUE (se non è bloccato/read-only).
     """
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -41,6 +41,10 @@ class NoWheelDateEdit(QDateEdit):
 
     def eventFilter(self, obj, event):
         """Intercetta il click sulla casella di testo interna."""
+        # MODIFICA: Se il widget è impostato come ReadOnly (bloccato), ignora il click personalizzato
+        if self.isReadOnly():
+            return super().eventFilter(obj, event)
+
         if obj == self.lineEdit() and event.type() == QEvent.MouseButtonPress:
             if event.button() == Qt.LeftButton:
                 self.open_popup()
@@ -49,6 +53,11 @@ class NoWheelDateEdit(QDateEdit):
 
     def mousePressEvent(self, event):
         """Intercetta il click sul contorno del widget."""
+        # MODIFICA: Se è ReadOnly, usa il comportamento standard (nessun popup)
+        if self.isReadOnly():
+            super().mousePressEvent(event)
+            return
+
         if event.button() == Qt.LeftButton:
             self.open_popup()
         else:
@@ -59,7 +68,6 @@ class NoWheelDateEdit(QDateEdit):
         opt = QStyleOptionSpinBox()
         self.initStyleOption(opt)
         
-        # Ottieni il rettangolo del pulsante freccia giù (standard per i dropdown)
         button_rect = self.style().subControlRect(
             QStyle.CC_SpinBox, 
             opt, 
@@ -67,7 +75,6 @@ class NoWheelDateEdit(QDateEdit):
             self
         )
         
-        # Crea un evento mouse fittizio centrato sul pulsante
         fake_event = QMouseEvent(
             QEvent.MouseButtonPress,
             button_rect.center(),
@@ -76,7 +83,6 @@ class NoWheelDateEdit(QDateEdit):
             Qt.NoModifier
         )
         
-        # Passa l'evento alla classe padre per far scattare l'apertura
         super().mousePressEvent(fake_event)
 
 class NoWheelComboBox(QComboBox):
@@ -110,16 +116,13 @@ class CheckableComboBox(QComboBox):
         self.model = QStandardItemModel(self)
         self.setModel(self.model)
         
-        # Installa un filtro eventi sul lineEdit per catturare il click
         self.lineEdit().installEventFilter(self)
-        
         self.view().pressed.connect(self.handle_item_pressed)
         
     def wheelEvent(self, event):
         event.ignore()
 
     def eventFilter(self, obj, event):
-        """Intercetta il click sul LineEdit per aprire il popup."""
         if obj == self.lineEdit() and event.type() == QEvent.MouseButtonPress:
             if event.button() == Qt.LeftButton:
                 self.showPopup()
@@ -191,10 +194,13 @@ class NewOrderPage(QWidget):
 
         form_layout_info = QFormLayout()
         
-        # --- DATA ORDINE ---
+        # --- DATA ORDINE (BLOCCATA) ---
         self.order_date_picker = NoWheelDateEdit()
         self.order_date_picker.setDate(QDate.currentDate()) 
-        # NOTA: Rimosso setButtonSymbols(NoButtons) affinché il calendario funzioni cliccando ovunque
+        
+        # MODIFICA: Riattivato il blocco e nascosto i pulsanti come nell'originale
+        self.order_date_picker.setReadOnly(True) 
+        self.order_date_picker.setButtonSymbols(QAbstractSpinBox.NoButtons) 
         
         title = QLabel("<h2>Informazioni Ordine</h2>")
         title.setObjectName("titleLabel") 
@@ -282,7 +288,6 @@ class NewOrderPage(QWidget):
         self.table.setColumnWidth(1, 100) # Codice
         self.table.setColumnWidth(2, 500) # Descrizione
         
-        # Colonne invertite
         self.table.setColumnWidth(3, 80)   # Quantità 
         self.table.setColumnWidth(4, 150)  # Prezzo Unitario
         

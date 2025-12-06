@@ -1,5 +1,6 @@
 /* ========================================
- * FOGLIO DI STYLE QSS - BOMBONIERE MERY
+ * FOGLIO DI STILE QSS - BOMBONIERE MERY
+ * VERSIONE FINALE (Tutto Rosa + Fix Win11)
  * ========================================
  */
 
@@ -113,15 +114,6 @@ QComboBox::down-arrow, QDateEdit::down-arrow {
     color: #5a4a54;
 }
 
-QComboBox QAbstractItemView {
-    background-color: #fffafc;
-    border: 1px solid #e6d0dc;
-    selection-background-color: #d4a5c5;
-    selection-color: white;
-    padding: 4px;
-    border-radius: 4px;
-}
-
 /* Campi non modificabili */
 QDateEdit[readOnly="true"] {
     background-color: #f8f0f5;
@@ -129,7 +121,95 @@ QDateEdit[readOnly="true"] {
     border: 1px solid #e6d0dc;
 }
 
-/* --- TABELLA CORRETTA (Senza padding problematico) --- */
+/* ==========================================================
+   STILE MENU A TENDINA (Fix Windows 11 + Fix Azzurro)
+   ========================================================== */
+
+QComboBox QAbstractItemView {
+    background-color: #fffafc;
+    border: 1px solid #d4a5c5;
+    selection-background-color: #f8d7e6;
+    selection-color: #5a4a54;
+    padding: 4px;
+    border-radius: 4px;
+    outline: none;
+}
+
+QComboBox QAbstractItemView::item {
+    min-height: 25px;
+    color: #5a4a54;
+    border: none;
+    padding-left: 5px; 
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #f8d7e6; /* Rosa chiaro */
+    color: #5a4a54;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: #d4a5c5; /* Rosa scuro */
+    color: white;
+}
+
+/* CHECKBOX WINDOWS 11 FIX */
+QComboBox QAbstractItemView::indicator {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 1px solid #d4a5c5;
+    border-radius: 3px;
+    background-color: white;
+}
+
+QComboBox QAbstractItemView::indicator:checked {
+    background-color: #d4a5c5;
+    border: 1px solid #b76e97;
+}
+
+QComboBox QAbstractItemView::indicator:hover {
+    border: 2px solid #b76e97;
+}
+
+/* ==========================================================
+   LISTA ORDINI (SEARCH PAGE) - NUOVO STILE ROSA
+   ========================================================== */
+
+QListWidget {
+    background-color: #fffafc;
+    border: 1px solid #e6d0dc;
+    border-radius: 6px;
+    outline: none; /* Rimuove il bordo tratteggiato brutto */
+}
+
+QListWidget::item {
+    padding: 10px;
+    border-bottom: 1px solid #f0e6ec; /* Linea leggera tra gli elementi */
+    color: #5a4a54;
+}
+
+/* Quando passi il mouse sopra (Hover) */
+QListWidget::item:hover {
+    background-color: #f8d7e6; /* Rosa Chiaro */
+    color: #5a4a54;
+}
+
+/* Quando selezioni un ordine */
+QListWidget::item:selected {
+    background-color: #d4a5c5; /* Rosa Scuro */
+    color: white;
+    border: none;
+}
+
+/* Quando l'elemento è selezionato ma la lista perde il focus */
+QListWidget::item:selected:!active {
+    background-color: #e6d0dc; /* Rosa pallido */
+    color: white;
+}
+
+/* ========================================================== */
+
+/* --- TABELLA --- */
 QTableWidget {
     background-color: #fffafc;
     border: 1px solid #e6d0dc;
@@ -151,18 +231,16 @@ QHeaderView::section {
     font-size: 10pt;
 }
 
-/* Stile per le celle NON in editing */
 QTableWidget::item {
     border-bottom: 1px solid #f0e6ec;
 }
 
-/* Stile per le celle SELEZIONATE */
 QTableWidget::item:selected {
     background-color: #d4a5c5;
     color: white;
 }
 
-/* Stile per gli editor nella tabella (QLineEdit, QComboBox dentro la tabella) */
+/* Editor nella tabella */
 QTableWidget QLineEdit, QTableWidget QComboBox {
     background-color: white;
     border: 1px solid #d4a5c5;
@@ -171,7 +249,6 @@ QTableWidget QLineEdit, QTableWidget QComboBox {
     border-radius: 3px;
 }
 
-/* QComboBox dentro la tabella */
 QTableWidget QComboBox {
     padding: 4px;
 }

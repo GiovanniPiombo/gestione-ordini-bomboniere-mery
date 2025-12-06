@@ -55,4 +55,5 @@ ICON_PATH = os.path.join(RESOURCE_DIR, "icon.png")
 
 # Percorsi delle cartelle dati (ora in AppData)
 ORDERS_DIR = os.path.join(DATA_DIR, "orders")
+QUOTES_DIR = os.path.join(DATA_DIR, "quotes")
 OUTPUT_DIR = os.path.join(DATA_DIR, "ordini_stampati")

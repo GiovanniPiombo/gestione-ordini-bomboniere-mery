@@ -22,6 +22,7 @@ class SearchPage(QWidget):
     3. Aprire un file per la modifica (doppio click).
     4. Convertire un Preventivo in Ordine (tasto "Conferma").
     5. Stampare direttamente un documento selezionato.
+    6. Eliminare definitivamente un Ordine o Preventivo.
     """
 
     def __init__(self, on_back, on_load_order, on_print_order):
@@ -65,6 +66,11 @@ class SearchPage(QWidget):
         btn_back = QPushButton("⬅️ Torna al Menu")
         btn_back.clicked.connect(on_back)
         
+        # Bottone "Elimina"
+        self.btn_delete = QPushButton("🗑️ Elimina Selezionato")
+        self.btn_delete.setStyleSheet("background-color: #f8d7da; border: 1px solid #f5c2c7; color: #842029; font-weight: bold;")
+        self.btn_delete.clicked.connect(self.delete_selected_item)
+
         # Bottone "Conferma": visibile SOLO se siamo in modalità Preventivi
         self.btn_confirm = QPushButton("✅ Conferma Preventivo")
         self.btn_confirm.clicked.connect(self.confirm_selected_quote)
@@ -75,6 +81,7 @@ class SearchPage(QWidget):
         
         button_layout.addWidget(btn_back)
         button_layout.addStretch() # Spinge i bottoni successivi a destra
+        button_layout.addWidget(self.btn_delete)
         button_layout.addWidget(self.btn_confirm)
         button_layout.addWidget(btn_print)
         
@@ -116,8 +123,41 @@ class SearchPage(QWidget):
             self.on_print_order(file_path)
 
     # ============================================================================
-    # --- LOGICA CORE: CONVERSIONE PREVENTIVO -> ORDINE ---
+    # --- LOGICA CORE: ELIMINAZIONE E CONVERSIONE ---
     # ============================================================================
+
+    def delete_selected_item(self):
+        """Elimina fisicamente il file dell'ordine o preventivo selezionato."""
+        selected_item = self.order_list_widget.currentItem()
+        if not selected_item:
+            QMessageBox.warning(self, "Nessuna Selezione", "Seleziona un elemento da eliminare.")
+            return
+
+        file_path = selected_item.data(Qt.UserRole)
+        is_quote_mode = (self.type_selector.currentIndex() == 1)
+        doc_type = "preventivo" if is_quote_mode else "ordine"
+
+        # Finestra di conferma critica
+        msg = QMessageBox(self)
+        msg.setWindowTitle(f"Conferma Eliminazione {doc_type.capitalize()}")
+        msg.setText(f"Sei sicuro di voler eliminare definitivamente questo {doc_type}?\n\nQuesta azione NON può essere annullata.")
+        msg.setIcon(QMessageBox.Warning)
+
+        btn_si = msg.addButton("Sì, Elimina", QMessageBox.DestructiveRole)
+        btn_no = msg.addButton("Annulla", QMessageBox.RejectRole)
+
+        msg.exec()
+
+        if msg.clickedButton() == btn_si:
+            try:
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    QMessageBox.information(self, "Successo", f"{doc_type.capitalize()} eliminato correttamente.")
+                    self.load_orders() # Aggiorna la lista rimuovendo il file cancellato
+                else:
+                    QMessageBox.warning(self, "Errore", "Il file non esiste o è già stato eliminato.")
+            except Exception as e:
+                QMessageBox.critical(self, "Errore", f"Impossibile eliminare il file:\n{e}")
 
     def confirm_selected_quote(self):
         """

@@ -5,6 +5,7 @@ from PySide6.QtGui import QIcon # Importa QIcon
 from pages.menu_page import MenuPage
 from pages.search_page import SearchPage
 from pages.new_order_page import NewOrderPage
+from pages.settings_page import SettingsPage 
 
 # Importa la funzione di stampa
 from core.print_order import generate_and_print_order
@@ -35,7 +36,8 @@ class MainWindow(QMainWindow):
         # Creazione delle pagine
         self.menu_page = MenuPage(
             on_search=lambda: self.show_page(self.search_page),
-            on_new_order=self.prepare_and_show_new_order 
+            on_new_order=self.prepare_and_show_new_order,
+            on_settings=lambda: self.show_page(self.settings_page)
         )
         
         self.search_page = SearchPage(
@@ -47,12 +49,19 @@ class MainWindow(QMainWindow):
         self.new_order_page = NewOrderPage(
             on_back=lambda: self.show_page(self.menu_page)
         )
+        
+        # --- INIZIALIZZAZIONE NUOVA PAGINA IMPOSTAZIONI ---
+        self.settings_page = SettingsPage(
+            on_back=lambda: self.show_page(self.menu_page)
+        )
 
         # Aggiunta delle pagine allo stack
         self.stack.addWidget(self.menu_page)
         self.stack.addWidget(self.search_page)
         self.stack.addWidget(self.new_order_page)
+        self.stack.addWidget(self.settings_page) 
 
+        # Mostra il menu principale all'avvio
         self.show_page(self.menu_page)
 
     def show_page(self, page):
